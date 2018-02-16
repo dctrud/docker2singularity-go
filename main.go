@@ -77,8 +77,8 @@ Will authenticate to repositories using settings in $HOME/.docker/config.json
 	return
 }
 
-// Given a uri, with a scheme supported as a containers/image transport,
-// pull the image, unpack it to sandBoxDir and setup singularity
+// CreateSandbox - Given a uri, with a scheme supported as a containers/image
+// transport, pull the image, unpack it to sandBoxDir and setup singularity
 // specific environment.
 func CreateSandbox(uri string, sandboxDir string) {
 
