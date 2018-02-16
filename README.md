@@ -23,8 +23,8 @@ Has been written as:
   
 ## Does not yet...
 
-  * Properly fix the env yet (need to exclude things, proper quoting etc.)
-  * Build and image, only sandbox
+  * Properly fix the env (need to exclude things, proper quoting etc.)
+  * Build an image, only sandbox
   * Tidy up it's temp dir
 
 
@@ -34,7 +34,6 @@ Has been written as:
 $ go get trash
 $ trash
 $ go build
-
 ```
 
 ## Try it out
