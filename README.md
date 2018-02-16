@@ -1,5 +1,8 @@
 # docker2singularity-go
 
+**PROOF OF CONCEPT - NOT YET TIDY/PRODUCTION CODE!**
+
+
 This is a reimplementation of docker2singularity that:
 
   * Is written in Go
@@ -10,7 +13,7 @@ Has been written as:
 
   * A proof of concept for creating singularity containers from docker registry
     images in Go
-  * A troubleshooting/verification tool for   
+  * A troubleshooting/verification tool for docker container issues 
 
 
 ## Currently Does...
@@ -60,10 +63,6 @@ Copying config sha256:5224c76eca8e908e113254e975054abf205042d9e0ec0c31aba981b28d
 Writing manifest to image destination
 Storing signatures
 2018/02/16 13:21:53 Unpacking container to ubuntu_sandbox 
-dave@fedora:~/go/src/github.com/dctrud/docker2singularity-go
-01:21 PM $ ls
-docker2singularity-go  LICENSE  README.md  trash.lock      vendor
-environment.tar        main.go  test       ubuntu_sandbox  vendor.conf
 
 01:29 PM $ singularity exec ubuntu_sandbox/ cat /etc/lsb-release
 DISTRIB_ID=Ubuntu
