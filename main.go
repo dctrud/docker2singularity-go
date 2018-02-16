@@ -19,6 +19,13 @@ import (
 	"archive/tar"
 	"compress/gzip"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/containers/image/copy"
 	"github.com/containers/image/signature"
 	"github.com/containers/image/transports"
@@ -26,12 +33,6 @@ import (
 	imgspecv1 "github.com/opencontainers/image-spec/specs-go/v1"
 	"github.com/opencontainers/image-tools/image"
 	"github.com/urfave/cli"
-	"io"
-	"io/ioutil"
-	"log"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 func main() {
@@ -85,6 +86,8 @@ func CreateSandbox(uri string, sandboxDir string) {
 	errFatal(err)
 
 	imgConfig, err := getOCIConfig(ociDir)
+
+	defer os.RemoveAll(ociDir)
 
 	err = unpackImage(ociDir, sandboxDir)
 	errFatal(err)

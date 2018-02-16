@@ -25,7 +25,7 @@ Has been written as:
 
   * Properly fix the env yet (need to exclude things, proper quoting etc.)
   * Build and image, only sandbox
-  * Tidy up it's temp dir
+
 
 
 ## To build
