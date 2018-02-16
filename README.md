@@ -24,9 +24,7 @@ Has been written as:
 ## Does not yet...
 
   * Properly fix the env yet (need to exclude things, proper quoting etc.)
-  * Build and image, only sandbox
-
-
+  * Build an image, only sandbox
 
 ## To build
 
@@ -34,7 +32,6 @@ Has been written as:
 $ go get trash
 $ trash
 $ go build
-
 ```
 
 ## Try it out
