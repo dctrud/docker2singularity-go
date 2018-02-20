@@ -29,7 +29,7 @@ Has been written as:
 ## To build
 
 ```
-$ go get trash
+$ go get github.com/rancher/trash
 $ trash
 $ go build
 ```
@@ -39,7 +39,7 @@ $ go build
 You must run where you built it for now!
 
 
-```
+```bash
 01:21 PM $ ./docker2singularity-go docker://ubuntu:latest ubuntu_sandbox 
 2018/02/16 13:21:44 Setting singature policy (accept all) 
 2018/02/16 13:21:44 Fetching container docker://ubuntu:latest 
