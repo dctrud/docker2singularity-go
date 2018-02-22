@@ -62,12 +62,11 @@ Will authenticate to repositories using settings in $HOME/.docker/config.json
 	app.Email = "dtrudg@sylabs.io"
 	app.Copyright = "(c) 2018 Sylabs Inc."
 
-	if len(os.Args) != 3 {
-		fmt.Println("Usage: " + app.UsageText)
-		os.Exit(1)
-	}
-
 	app.Action = func(c *cli.Context) error {
+		if len(os.Args) != 3 {
+			fmt.Println("Usage: " + app.UsageText)
+			os.Exit(1)
+		}
 		CreateSandbox(os.Args[1], os.Args[2])
 		return nil
 	}
