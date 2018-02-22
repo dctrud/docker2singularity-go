@@ -33,8 +33,15 @@ $ go get github.com/rancher/trash
 $ trash
 $ go build
 ```
+If you do not need ostree support, or do not have gpgme available you can use
+build tags to exclude those features of `containers/image`:
 
-## Try it out
+```
+$ go build --tags containers_image_openpgp,containers_image_ostree_stub
+```
+
+
+## Pulling dockerhub images...
 
 You must run where you built it for now!
 
@@ -67,3 +74,49 @@ DISTRIB_RELEASE=16.04
 DISTRIB_CODENAME=xenial
 DISTRIB_DESCRIPTION="Ubuntu 16.04.3 LTS"
 ```
+
+## Pulling private docker registry images...
+
+The docker2singularity-go tool can use your `docker login` config to access private
+registries, such as the NVIDIA GPU Cloud.
+
+E.g. to pull docker images from the NVIDIA GPU Cloud into a singularity sandbox:
+
+```sh
+# First configure your login per the instructions on the GPU cloud site: 
+$ docker login nvcr.io
+Username: $oauthtoken
+Password:
+Login Succeeded
+
+# Now you pull a GPU cloud container into a singularity sandbox
+$ ./docker2singularity-go docker://nvcr.io/nvidia/caffe:18.01-py2 nvcr_caffe_sandbox/
+...
+
+# And run with Singularity...
+$ singularity run --nv nvcr_caffe_sandbox/
+
+==================
+== NVIDIA Caffe ==
+==================
+
+NVIDIA Release 18.01 (build 282448)
+
+Container image Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+Copyright (c) 2014, 2015, The Regents of the University of California (Regents)
+All rights reserved.
+...
+```
+
+## Other formats to Singularity sandboxes...
+
+Through the use of `containers/image` this tool supports more than `docker://`
+hub/registry URIs. You can create sandboxes from:
+
+  - docker archives
+  - docker-daemon managed containers
+  - oci directories
+  - oci archives
+  - ostree
+  - tarballs
+
