@@ -37,7 +37,7 @@ If you do not need ostree support, or do not have gpgme available you can use
 build tags to exclude those features of `containers/image`:
 
 ```
-$ go build --tags containers_image_openpgp,containers_image_ostree_stub
+$ go build --tags "containers_image_openpgp containers_image_ostree_stub"
 ```
 
 
