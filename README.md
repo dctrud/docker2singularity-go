@@ -29,24 +29,78 @@ Has been written as:
 ## To build
 You will need to install another go module called trash, which will help handle some of the Docker dependencies. It is called "trash". The following command will install an executable "trash" into your `$GOPATH/bin`
 
+Install dependent packages.  The package names on Centos7 are
+```
+gpgme-devel libassuan-devel device-mapper-devel glib2-devel btrfs-progs-devel ostree-devel
+```
+
+Set up a go build environment if you don't have one, for example:
+```
+$ export GOPATH=$HOME/gocode
+$ PATH=$PATH:$GOPATH/bin
+$ mkdir -p $GOPATH/src
+```
+
+Clone this package under $GOPATH/src, cd into it, and first install [trash](https://github.com/rancher/trash). This will collect your dependencies into a "vendor" folder:
+
 ```
 $ go get github.com/rancher/trash
-```
-
-and then you can run it to build this executable.
-
-```
 $ trash
+```
+
+The next dependency is a library called [cli](https://github.com/urfave/cli) 
+that is commonly used to create clients like this one.
+
+```
+$ go get github.com/urfave/cli
+```
+
+Once you have this basic setup, then you can build this executable. If you want to see the 
+executables that will be compiled first:
+
+```
+go list -f '{{.GoFiles}}' os/exec
+[exec.go exec_unix.go lp_unix.go]
+```
+
+And then 
+
+```
 $ go build
 ```
 
-If you do not need ostree support, or do not have gpgme available you can use
-build tags to exclude those features of `containers/image`:
+Read on for customizing and debugging.
+
+## Debugging Build
+If you see an error message about missing gpgme:
+
+```
+go build
+# github.com/vsoch/docker2singularity-go/vendor/github.com/mtrmac/gpgme
+vendor/github.com/mtrmac/gpgme/data.go:4:20: fatal error: gpgme.h: No such file or directory
+```
+
+this means that you don't have gpgme available. If you can't install it, or do 
+not need ostree support, you can use build tags
+to exclude those features of `containers/image`:
 
 ```
 $ go build --tags "containers_image_openpgp containers_image_ostree_stub"
 ```
 
+If you see the following error:
+
+```
+# github.com/vsoch/docker2singularity-go/vendor/github.com/containers/storage/drivers/btrfs
+vendor/github.com/containers/storage/drivers/btrfs/btrfs.go:8:25: fatal error: btrfs/ioctl.h: No such file or directory
+compilation terminated.
+```
+
+Try installing the `btrfs-tools`
+
+```
+$ sudo apt-get install -y btrfs-tools
+```
 
 ## Pulling dockerhub images...
 
