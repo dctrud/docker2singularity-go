@@ -28,13 +28,29 @@ Has been written as:
 
 ## To build
 
+Install dependent packages.  The package names on Centos7 are
+```
+gpgme-devel libassuan-devel device-mapper-devel glib2-devel btrfs-progs-devel ostree-devel
+```
+
+Set up a go build environment if you don't have one, for example:
+```
+$ export GOPATH=$HOME/gocode
+$ PATH=$PATH:$GOPATH/bin
+$ mkdir -p $GOPATH/src
+```
+
+Clone this package under $GOPATH/src, cd into it, and build with this:
+
 ```
 $ go get github.com/rancher/trash
 $ trash
+$ go get github.com/urfave/cli
 $ go build
 ```
-If you do not need ostree support, or do not have gpgme available you can use
-build tags to exclude those features of `containers/image`:
+If you do not need ostree support, or do not have gpgme or ostree
+available, you can use build tags to exclude those features of
+`containers/image`:
 
 ```
 $ go build --tags "containers_image_openpgp containers_image_ostree_stub"
