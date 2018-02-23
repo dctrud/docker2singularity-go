@@ -27,17 +27,24 @@ Has been written as:
   * Build an image, only sandbox
 
 ## To build
+You will need to install another go module called trash, which will help handle some of the Docker dependencies. It is called "trash". The following command will install an executable "trash" into your `$GOPATH/bin`
 
 ```
 $ go get github.com/rancher/trash
+```
+
+and then you can run it to build this executable.
+
+```
 $ trash
 $ go build
 ```
+
 If you do not need ostree support, or do not have gpgme available you can use
 build tags to exclude those features of `containers/image`:
 
 ```
-$ go build --tags containers_image_openpgp,containers_image_ostree_stub
+$ go build --tags "containers_image_openpgp containers_image_ostree_stub"
 ```
 
 
