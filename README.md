@@ -26,83 +26,51 @@ Has been written as:
   * Properly fix the env yet (need to exclude things, proper quoting etc.)
   * Build an image, only sandbox
 
-## To build
-You will need to install another go module called trash, which will help handle some of the Docker dependencies. It is called "trash". The following command will install an executable "trash" into your `$GOPATH/bin`
+## Operating System Dependencies
 
-Install dependent packages.  The package names on Centos7 are
+To build `docker2singularity-go` successfully you will need the following packages installed:
+
+**CentOS / RHEL**
 ```
 gpgme-devel libassuan-devel device-mapper-devel glib2-devel btrfs-progs-devel ostree-devel
 ```
 
-Set up a go build environment if you don't have one, for example:
+**Ubuntu**
+
+## Building
+
+First, Set up a go build environment if you don't have one, for example:
 ```
-$ export GOPATH=$HOME/gocode
+$ export GOPATH=$HOME/go
 $ PATH=$PATH:$GOPATH/bin
 $ mkdir -p $GOPATH/src
 ```
 
-Clone this package under $GOPATH/src, cd into it, and first install [trash](https://github.com/rancher/trash). This will collect your dependencies into a "vendor" folder:
+Make sure that you clone this `docker2singularity-go` repository under
+`$GOPATH/src`.
+
+Next, you will need to install another go package called trash. This is a dependency manager that will install the go pacakage dependencies of `docker2singularity-go` into a `vendor/` directory. The following command will install an executable "trash" into your `$GOPATH/bin`
 
 ```
 $ go get github.com/rancher/trash
+```
+
+Ensure you are in the `docker2singularity-go` directory, and can see
+`vendor.conf`. Run the `trash` command to collect the dependencies:
+
+```
 $ trash
 ```
 
-The next dependency is a library called [cli](https://github.com/urfave/cli) 
-that is commonly used to create clients like this one.
-
-```
-$ go get github.com/urfave/cli
-```
-
-Once you have this basic setup, then you can build this executable. If you want to see the 
-executables that will be compiled first:
-
-```
-go list -f '{{.GoFiles}}' os/exec
-[exec.go exec_unix.go lp_unix.go]
-```
-
-And then 
+You can now build the `docker2singularity-go` binary via:` 
 
 ```
 $ go build
 ```
 
-Read on for customizing and debugging.
+## Usage
 
-## Debugging Build
-If you see an error message about missing gpgme:
-
-```
-go build
-# github.com/vsoch/docker2singularity-go/vendor/github.com/mtrmac/gpgme
-vendor/github.com/mtrmac/gpgme/data.go:4:20: fatal error: gpgme.h: No such file or directory
-```
-
-this means that you don't have gpgme available. If you can't install it, or do 
-not need ostree support, you can use build tags
-to exclude those features of `containers/image`:
-
-```
-$ go build --tags "containers_image_openpgp containers_image_ostree_stub"
-```
-
-If you see the following error:
-
-```
-# github.com/vsoch/docker2singularity-go/vendor/github.com/containers/storage/drivers/btrfs
-vendor/github.com/containers/storage/drivers/btrfs/btrfs.go:8:25: fatal error: btrfs/ioctl.h: No such file or directory
-compilation terminated.
-```
-
-Try installing the `btrfs-tools`
-
-```
-$ sudo apt-get install -y btrfs-tools
-```
-
-## Pulling dockerhub images...
+### Pulling dockerhub images...
 
 You must run where you built it for now!
 
@@ -136,7 +104,7 @@ DISTRIB_CODENAME=xenial
 DISTRIB_DESCRIPTION="Ubuntu 16.04.3 LTS"
 ```
 
-## Pulling private docker registry images...
+### Pulling private docker registry images...
 
 The docker2singularity-go tool can use your `docker login` config to access private
 registries, such as the NVIDIA GPU Cloud.
@@ -181,3 +149,36 @@ hub/registry URIs. You can create sandboxes from:
   - ostree
   - tarballs
 
+## Troubleshooting 
+
+### Build Problems
+
+If you see an error message about missing gpgme:
+
+```
+go build
+# github.com/vsoch/docker2singularity-go/vendor/github.com/mtrmac/gpgme
+vendor/github.com/mtrmac/gpgme/data.go:4:20: fatal error: gpgme.h: No such file or directory
+```
+
+this means that you don't have gpgme available. If you can't install it, or do 
+not need ostree support, you can use build tags
+to exclude those features of `containers/image`:
+
+```
+$ go build --tags "containers_image_openpgp containers_image_ostree_stub"
+```
+
+If you see the following error:
+
+```
+# github.com/vsoch/docker2singularity-go/vendor/github.com/containers/storage/drivers/btrfs
+vendor/github.com/containers/storage/drivers/btrfs/btrfs.go:8:25: fatal error: btrfs/ioctl.h: No such file or directory
+compilation terminated.
+```
+
+Try installing the `btrfs-tools`
+
+```
+$ sudo apt-get install -y btrfs-tools
+```
